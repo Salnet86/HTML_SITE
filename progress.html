@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Progress Bar Circolare</title>
+  <style>
+    .circle-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      margin: 50px auto;
+    }
+
+    .circle {
+      transform: rotate(-90deg);
+    }
+
+    .background {
+      fill: none;
+      stroke: #e6e6e6;
+    }
+
+    .progress {
+      fill: none;
+      stroke: #4caf50;
+      transition: stroke-dashoffset 0.3s;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="circle-container">
+    <svg class="circle" width="120" height="120" viewBox="0 0 120 120">
+      <circle class="background" cx="60" cy="60" r="50" stroke-width="10" />
+      <circle class="progress" cx="60" cy="60" r="50" stroke-width="10" stroke-dasharray="314" stroke-dashoffset="314" />
+    </svg>
+  </div>
+
+  <button onclick="updateProgress()">Avanza</button>
+
+  <script>
+    let progress = 0;
+
+    function updateProgress() {
+      // Incrementa la progressione
+      progress += 10;
+      if (progress > 100) {
+        progress = 0; // Resetta la progressione quando arriva al 100%
+      }
+      
+      // Calcola lo spostamento per la progress bar
+      const offset = 314 - (314 * progress / 100);
+      
+      // Aggiorna la progressione
+      document.querySelector('.progress').style.strokeDashoffset = offset;
+    }
+  </script>
+
+</body>
+</html>
