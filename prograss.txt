@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Progress Bar Circolare</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+      font-family: sans-serif;
+    }
+
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .circle-bg {
+      stroke: #eee;
+    }
+
+    .circle-progress {
+      stroke: #00aaff;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      transition: stroke-dashoffset 0.3s linear;
+    }
+
+    .percentage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Cerchio SVG -->
+    <svg width="200" height="200">
+      <!-- Cerchio di sfondo -->
+      <circle class="circle-bg" cx="100" cy="100" r="90" stroke-width="15" fill="none" />
+      <!-- Cerchio di progresso -->
+      <circle class="circle-progress" cx="100" cy="100" r="90" stroke-width="15" fill="none" />
+    </svg>
+    <!-- Percentuale testo -->
+    <div class="percentage" id="percent-text">100%</div>
+  </div>
+
+  <script>
+    // Valori iniziali
+    const radius = 90;
+    const circumference = 2 * Math.PI * radius;
+    const progressCircle = document.querySelector('.circle-progress');
+    const percentText = document.getElementById('percent-text');
+
+    // Imposta lunghezza tratto visibile totale
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = 0;
+
+    // Inizializza valore al 100%
+    let value = 100;
+
+    // Funzione per aggiornare la barra e il testo
+    function updateProgress(val) {
+      const progress = val / 100;
+      const offset = circumference * (1 - progress);
+      progressCircle.style.strokeDashoffset = offset;
+      percentText.textContent = `${val}%`;
+    }
+
+    // Decrementa ogni 100ms
+    const interval = setInterval(() => {
+      updateProgress(value);
+      value--;
+
+      if (value < 0) {
+        clearInterval(interval);
+      }
+    }, 100); // intervallo 100ms = 10 secondi da 100 a 0
+  </script>
+
+</body>
+</html>

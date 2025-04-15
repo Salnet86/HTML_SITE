@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Progress Bar Circolare Incrementale</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f0f0f0;
+      font-family: sans-serif;
+    }
+
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+    }
+
+    .circle-bg {
+      stroke: #eee; /* cerchio di sfondo grigio */
+    }
+
+    .circle-progress {
+      stroke: #00cc66; /* colore del progresso */
+      transform: rotate(-90deg); /* inizia da cima */
+      transform-origin: center;
+      transition: stroke-dashoffset 0.3s linear;
+    }
+
+    .percentage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: bold;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- SVG per la barra circolare -->
+    <svg width="200" height="200">
+      <!-- Cerchio grigio di sfondo -->
+      <circle class="circle-bg" cx="100" cy="100" r="90" stroke-width="15" fill="none" />
+      <!-- Cerchio verde per il progresso -->
+      <circle class="circle-progress" cx="100" cy="100" r="90" stroke-width="15" fill="none" />
+    </svg>
+    <!-- Testo percentuale al centro -->
+    <div class="percentage" id="percent-text">0%</div>
+  </div>
+
+  <script>
+    // Imposta raggio e calcola la circonferenza
+    const radius = 90;
+    const circumference = 2 * Math.PI * radius;
+
+    // Seleziona gli elementi HTML
+    const progressCircle = document.querySelector('.circle-progress');
+    const percentText = document.getElementById('percent-text');
+
+    // Imposta le proprietà iniziali del cerchio
+    progressCircle.style.strokeDasharray = circumference;
+    progressCircle.style.strokeDashoffset = circumference;
+
+    // Valore iniziale (0%) e massimo (100%)
+    let value = 0;
+
+    // Funzione che aggiorna il cerchio e il testo
+    function updateProgress(val) {
+      const progress = val / 100;
+      const offset = circumference * (1 - progress); // formula chiave
+      progressCircle.style.strokeDashoffset = offset;
+      percentText.textContent = `${val}%`;
+    }
+
+    // Incrementa ogni 100ms
+    const interval = setInterval(() => {
+      updateProgress(value);
+      value++;
+
+      if (value > 100) {
+        clearInterval(interval);
+      }
+    }, 100); // 100ms * 100 = ~10 secondi per completare
+  </script>
+
+</body>
+</html>
