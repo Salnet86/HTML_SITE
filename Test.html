@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <title>Progress Bar Circolare con Proporzione</title>
+  <style>
+    svg {
+      width: 150px;
+      height: 150px;
+    }
+    circle {
+      transition: stroke-dashoffset 0.5s ease;
+    }
+    #progress {
+      stroke: lime; /* Cambia il colore della progress bar a lime */
+    }
+    body {
+      background-color: lightblue; /* Sfondo del body blu chiaro */
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    p, h1 {
+      color: black;
+    }
+    .offset-values {
+      margin-top: 20px;
+      font-size: 16px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+
+  <h1>Esercizio Istituto Tecnico ITIS Grassi</h1>
+
+
+  <p><strong>Proporzione: </strong> La lunghezza dell'arco visibile della progress bar è proporzionale alla percentuale selezionata dallo slider. La formula utilizzata per calcolare la lunghezza dell'arco è la seguente:</p>
+
+
+  <p><strong>Formula:</strong> <br>
+  Lunghezza arco = (Percentuale / 100) * Circonferenza
+  </p>
+
+
+  <p><strong>Passaggi della proporzione:</strong><br>
+  1. Calcoliamo la circonferenza del cerchio utilizzando la formula: <br>
+  <code>Circonferenza = 2 * Math.PI * raggio</code> <br>
+  2. Calcoliamo la lunghezza dell'arco visibile in base alla percentuale selezionata dallo slider con la formula: <br>
+  <code>Lunghezza arco = (Percentuale / 100) * Circonferenza</code><br>
+  3. Calcoliamo l'offset per nascondere la parte non visibile del cerchio: <br>
+  <code>Offset = Circonferenza - Lunghezza arco</code><br>
+  4. Impostiamo l'offset per ottenere la visualizzazione corretta del progresso.
+  </p>
+
+
+  <svg viewBox="0 0 120 120">
+    <!-- Cerchio di sfondo -->
+    <circle
+      id="bg"
+      r="50"
+      cx="60"
+      cy="60"
+      stroke="#ddd"
+      stroke-width="10"
+      fill="none"
+    />
+    <!-- Cerchio del progresso -->
+    <circle
+      id="progress"
+      r="50"
+      cx="60"
+      cy="60"
+      stroke="#00f"
+      stroke-width="10"
+      fill="none"
+      stroke-linecap="round"
+      transform="rotate(-90 60 60)"
+    />
+    <!-- Percentuale al centro -->
+    <text
+      id="percent-text"
+      x="60"
+      y="65"
+      text-anchor="middle"
+      font-size="18"
+      fill="#000"
+    ></text>
+  </svg>
+
+
+  <input type="range" min="0" max="100" value="75" id="slider" />
+
+
+  <div class="offset-values">
+    <p><strong>Valori calcolati:</strong></p>
+    <p>Circonferenza: <span id="circonferenza-value">314.16</span></p>
+    <p>Lunghezza Arco: <span id="lunghezza-arco-value">235.62</span></p>
+    <p>Offset: <span id="offset-value">78.54</span></p>
+  </div>
+
+
+  <script>
+    const slider = document.getElementById('slider');
+    const progress = document.getElementById('progress');
+    const percentText = document.getElementById('percent-text');
+    const circonferenzaValue = document.getElementById('circonferenza-value');
+    const lunghezzaArcoValue = document.getElementById('lunghezza-arco-value');
+    const offsetValue = document.getElementById('offset-value');
+
+
+    const raggio = 50; // Raggio del cerchio
+    const circonferenza = 2 * Math.PI * raggio; // Circonferenza del cerchio
+
+
+    // Impostiamo la circonferenza come valore del dasharray
+    progress.setAttribute('stroke-dasharray', circonferenza);
+
+
+    // Funzione che aggiorna la progress bar in base alla percentuale
+    function aggiornaBarra(percentuale) {
+      // Calcoliamo la lunghezza dell'arco visibile in base alla percentuale
+      const lunghezzaArco = (percentuale / 100) * circonferenza;
+
+
+      // Calcoliamo l'offset da nascondere (parte non visibile)
+      const offset = circonferenza - lunghezzaArco;
+
+
+      // Impostiamo l'offset per nascondere la parte non visibile del cerchio
+      progress.setAttribute('stroke-dashoffset', offset);
+
+
+      // Aggiorniamo il testo con la percentuale
+      percentText.textContent = `${percentuale}%`;
+
+
+      // Mostriamo i valori calcolati
+      circonferenzaValue.textContent = circonferenza.toFixed(2);
+      lunghezzaArcoValue.textContent = lunghezzaArco.toFixed(2);
+      offsetValue.textContent = offset.toFixed(2);
+    }
+
+
+    // Aggiorna la barra al cambiare dello slider
+    slider.addEventListener('input', (e) => {
+      aggiornaBarra(e.target.value);
+    });
+
+
+    // Inizializzazione con il valore predefinito dello slider
+    aggiornaBarra(slider.value);
+  </script>
+
+
+</body>
+</html>
+

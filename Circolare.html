@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<title>Progress Bar Circolare con Proporzione</title>
+<style>
+svg {
+width: 150px;
+height: 150px;
+}
+circle {
+transition: stroke-dashoffset 0.5s ease;
+}
+</style>
+</head>
+<body>
+
+<svg viewBox="0 0 120 120">
+<!-- Cerchio di sfondo -->
+<circle
+id="bg"
+r="50"
+cx="60"
+cy="60"
+stroke="#ddd"
+stroke-width="10"
+fill="none"
+/>
+<!-- Cerchio del progresso -->
+<circle
+id="progress"
+r="50"
+cx="60"
+cy="60"
+stroke="#00f"
+stroke-width="10"
+fill="none"
+stroke-linecap="round"
+transform="rotate(-90 60 60)"
+/>
+<!-- Percentuale al centro -->
+<text
+id="percent-text"
+x="60"
+y="65"
+text-anchor="middle"
+font-size="18"
+fill="#000"
+></text>
+</svg>
+
+<input type="range" min="0" max="100" value="75" id="slider" />
+
+<script>
+const slider = document.getElementById('slider')
+const progress = document.getElementById('progress')
+const percentText = document.getElementById('percent-text')
+
+const raggio = 50
+const circonferenza = 2 * Math.PI * raggio
+
+// Impostiamo la circonferenza come valore del dasharray
+progress.setAttribute('stroke-dasharray', circonferenza)
+
+// Funzione che aggiorna la progress bar in base alla percentuale
+function aggiornaBarra(percentuale) {
+// 1. Calcoliamo la proporzione in gradi:
+// La percentuale deve essere mappata su un angolo di 360°
+const gradi = (percentuale * 360) / 100
+console.log(`Percentuale: ${percentuale}% -> Gradi: ${gradi}°`)
+
+// 2. Calcoliamo la lunghezza dell'arco visibile
+// La lunghezza visibile dell'arco (in base ai gradi) è una frazione della circonferenza
+const visibile = (gradi * circonferenza) / 360
+console.log(`Lunghezza visibile dell'arco: ${visibile} (frazione della circonferenza)`)
+
+// 3. Calcoliamo l'offset:
+// L'offset è la parte di circonferenza che rimane "nascosta". Si ottiene sottraendo la parte visibile dalla circonferenza totale
+const offset = circonferenza - visibile
+console.log(`Offset da nascondere: ${offset}`)
+
+// 4. Impostiamo l'offset per nascondere la parte non visibile del cerchio
+progress.setAttribute('stroke-dashoffset', offset)
+
+// 5. Aggiorniamo il testo con la percentuale
+percentText.textContent = `${percentuale}%`
+}
+
+slider.addEventListener('input', (e) => {
+aggiornaBarra(e.target.value) // Aggiorna la barra in base al valore dello slider
+})
+
+// Inizializzazione con il valore predefinito dello slider
+aggiornaBarra(slider.value)
+</script>
+
+</body>
+</html>
