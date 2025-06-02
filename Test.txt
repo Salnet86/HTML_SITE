@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<title>Sbriciola Semplice</title>
+<style>
+canvas { display:block; margin:20px auto; border:1px solid; }
+button { display:block; margin:auto; padding:10px 20px; font-size:18px; }
+</style>
+</head>
+<body>
+
+<canvas id="c" width="200" height="200"></canvas>
+<button onclick="sbriciola()">Sbriciola</button>
+
+<script>
+const c=document.getElementById('c'), ctx=c.getContext('2d'), size=10;
+let p=[];
+
+let img=new Image();
+img.crossOrigin="anonymous";
+img.src='d3.jpeg';
+img.onload=()=>{
+ctx.drawImage(img,0,0,c.width,c.height);
+let d=ctx.getImageData(0,0,c.width,c.height).data;
+for(let y=0;y<c.height;y+=size)
+for(let x=0;x<c.width;x+=size){
+let i=4*(y*c.width+x);
+let r=d[i],g=d[i+1],b=d[i+2];
+p.push({x,y,dx:0,dy:0,color:`rgb(${r},${g},${b})`});
+}
+}
+
+function sbriciola(){
+p.forEach(b=>{
+b.dx=(Math.random()-0.5)*5;
+b.dy=(Math.random()-0.5)*5;
+});
+anim();
+}
+
+function anim(){
+ctx.clearRect(0,0,c.width,c.height);
+p.forEach(b=>{
+b.x+=b.dx; b.y+=b.dy;
+ctx.fillStyle=b.color;
+ctx.fillRect(b.x,b.y,size,size);
+});
+requestAnimationFrame(anim);
+}
+</script>
+
+</body>
+</html>

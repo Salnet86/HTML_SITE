@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Paesaggio Scorrevole</title>
+<style>
+body {
+margin: 0;
+background: #f0f0f0;
+font-family: sans-serif;
+}
+
+.viewport {
+width: 800px;
+height: 400px;
+overflow: hidden;
+margin: 40px auto;
+position: relative;
+isolation: isolate;
+border: 2px solid #333;
+box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.landscape {
+display: flex;
+width: calc(800px * 3); /* 3 immagini larghe 800px */
+transition: transform 0.3s ease-in-out;
+}
+
+.landscape img {
+width: 800px;
+height: 400px;
+object-fit: cover;
+}
+
+.controls {
+text-align: center;
+margin-top: 10px;
+}
+
+button {
+font-size: 20px;
+padding: 10px 20px;
+margin: 0 10px;
+cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<div class="viewport">
+<div class="landscape" id="landscape">
+<img src="d1.jpeg" alt="Immagine 1">
+<img src="d2.jpeg" alt="Immagine 2">
+<img src="d3.jpeg" alt="Immagine 3">
+</div>
+</div>
+
+<div class="controls">
+<button onclick="vaiSinistra()">â—€ï¸ Dx</button>
+<button onclick="vaiDestra()">â–¶ï¸Sx </button>
+</div>
+
+<script>
+let posizione = 0;
+const larghezzaSlide = 800;
+const maxSlide = 2; // 0, 1, 2
+const landscape = document.getElementById('landscape');
+
+function aggiorna() {
+landscape.style.transform = `translateX(${-posizione * larghezzaSlide}px)`;
+}
+
+function vaiDestra() {
+if (posizione < maxSlide) {
+posizione++;
+aggiorna();
+}
+}
+
+function vaiSinistra() {
+if (posizione > 0) {
+posizione--;
+aggiorna();
+}
+}
+</script>
+
+</body>
+</html>
