@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    #chat {
+      height: 200px;
+      border: 1px solid #ccc;
+      overflow-y: auto;
+      padding: 5px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chat"></div>
+
+<form onsubmit="return sendMessage(event)">
+  <input type="text" id="msg" autocomplete="off" />
+  <button>Invia</button>
+</form>
+
+<script>
+  function sendMessage(e) {
+    e.preventDefault();
+    let chat = document.getElementById("chat");
+    let input = document.getElementById("msg");
+    let text = input.value.trim();
+    if (!text) return false;
+
+    // Aggiungi messaggio utente
+    chat.innerHTML += "<div>Tu: " + text + "</div>";
+
+    // Aggiungi risposta bot semplice
+    let reply = "Bot: " + (text.toLowerCase().includes("ciao") ? "Ciao!" : "Non ho capito.");
+
+    chat.innerHTML += "<div>" + reply + "</div>";
+
+    // Scroll automatico in fondo
+    chat.scrollTop = chat.scrollHeight;
+
+    input.value = "";
+    input.focus();
+    return false;
+  }
+</script>
+
+</body>
+</html>
