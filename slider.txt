@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slider Immagini Mobile</title>
+    <style>
+        /* Reset di base per margini e padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Contenitore dello slider */
+        .slider-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Wrapper delle immagini */
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        /* Stile immagini */
+        .slider-wrapper img {
+            width: 100%;
+            flex-shrink: 0; /* Ogni immagine prende tutta la larghezza */
+        }
+
+        /* Bottoni */
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0,0,0,0.5);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        /* Mobile friendly */
+        @media (max-width: 480px) {
+            .slider-btn {
+                font-size: 1.5rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Contenitore dello slider -->
+    <div class="slider-container">
+        <!-- Wrapper che contiene tutte le immagini -->
+        <div class="slider-wrapper">
+            <img src="https://picsum.photos/id/1011/400/300" alt="Immagine 1">
+            <img src="https://picsum.photos/id/1012/400/300" alt="Immagine 2">
+            <img src="https://picsum.photos/id/1015/400/300" alt="Immagine 3">
+        </div>
+
+        <!-- Bottoni navigazione -->
+        <button class="slider-btn prev">&#10094;</button>
+        <button class="slider-btn next">&#10095;</button>
+    </div>
+
+    <script>
+        // Prendo il wrapper e le immagini
+        const wrapper = document.querySelector('.slider-wrapper');
+        const images = document.querySelectorAll('.slider-wrapper img');
+
+        // Bottoni
+        const prevBtn = document.querySelector('.prev');
+        const nextBtn = document.querySelector('.next');
+
+        // Indice dell'immagine corrente
+        let index = 0;
+
+        // Funzione per aggiornare la posizione dello slider
+        function showSlide(i) {
+            // Controllo per ciclicità (loop)
+            if (i < 0) {
+                index = images.length - 1;
+            } else if (i >= images.length) {
+                index = 0;
+            } else {
+                index = i;
+            }
+            // Traslazione del wrapper in base all'indice
+            wrapper.style.transform = `translateX(${-index * 100}%)`;
+        }
+
+        // Eventi bottoni
+        prevBtn.addEventListener('click', () => {
+            showSlide(index - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            showSlide(index + 1);
+        });
+
+        // Optional: auto-scroll ogni 5 secondi
+        // setInterval(() => {
+        //     showSlide(index + 1);
+        // }, 5000);
+    </script>
+</body>
+</html>

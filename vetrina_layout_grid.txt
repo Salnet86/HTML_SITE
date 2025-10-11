@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Vetrina Commentato</title>
+  <style>
+    /* Reset base per togliere margini e padding di default e uniformare il box model */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Imposto lo sfondo generale, colore del testo e centro la griglia */
+    body {
+      background-color: #222; /* sfondo scuro per far risaltare i box */
+      font-family: Arial, sans-serif; /* font semplice e leggibile */
+      color: white; /* testo bianco */
+      display: flex; /* uso flex per centrare il contenitore principale */
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh; /* altezza minima a tutta finestra */
+    }
+
+    /* Contenitore principale con display grid */
+    .container {
+      display: grid; /* layout a griglia */
+      /* Definizione delle aree principali della pagina */
+      grid-template-areas:
+        'header header header'
+        'sidebar content1 content1'
+        'sidebar content2 content3'
+        'footer footer footer';
+      /* Larghezza delle colonne */
+      grid-template-columns: 250px 1fr 1fr; /* sidebar fissa e due colonne flessibili */
+      /* Altezza delle righe */
+      grid-template-rows: auto 1fr 1fr auto;
+      gap: 15px; /* spazio tra gli elementi */
+      width: 90%;
+      max-width: 1100px;
+    }
+
+    /* HEADER */
+    header {
+      grid-area: header; /* collegato al nome 'header' nel template grid */
+      background: linear-gradient(135deg, #8e2de2, #4a00e0); /* gradiente viola */
+      border-radius: 8px; /* angoli arrotondati */
+      text-align: center; /* testo centrato */
+      padding: 20px; /* spaziatura interna */
+      font-weight: bold; /* testo più marcato */
+      font-size: 1.2rem; /* grandezza testo */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* ombra leggera per effetto profondità */
+    }
+
+    /* SIDEBAR */
+    aside {
+      grid-area: sidebar; /* assegno l'area sidebar */
+      background: linear-gradient(135deg, #00c6ff, #0072ff); /* gradiente blu-azzurro */
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Contenuti principali: 3 sezioni */
+    .content1, .content2, .content3 {
+      border-radius: 8px; /* bordi arrotondati */
+      text-align: center; /* testo centrato */
+      font-weight: bold;
+      display: flex; /* centro testo orizzontalmente e verticalmente */
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5); /* effetto ombra */
+    }
+
+    /* Primo box grande */
+    .content1 {
+      grid-area: content1; /* posizione nella griglia */
+      background: linear-gradient(135deg, #4facfe, #00f2fe); /* gradiente blu chiaro */
+      min-height: 180px;
+    }
+
+    /* Secondo box */
+    .content2 {
+      grid-area: content2;
+      background: linear-gradient(135deg, #4facfe, #0072ff);
+      min-height: 150px;
+    }
+
+    /* Terzo box */
+    .content3 {
+      grid-area: content3;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      min-height: 150px;
+    }
+
+    /* FOOTER */
+    footer {
+      grid-area: footer;
+      background: linear-gradient(135deg, #8e2de2, #4a00e0); /* stesso gradiente dell’header */
+      border-radius: 8px;
+      text-align: center;
+      padding: 20px;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Versione mobile: la griglia diventa una colonna unica */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-areas:
+          'header'
+          'sidebar'
+          'content1'
+          'content2'
+          'content3'
+          'footer';
+        grid-template-columns: 1fr; /* una sola colonna */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>header</header>
+    <aside>sidebar</aside>
+    <div class="content1">Content-1</div>
+    <div class="content2">Content-2</div>
+    <div class="content3">Content-3</div>
+    <footer>footer</footer>
+  </div>
+</body>
+</html>

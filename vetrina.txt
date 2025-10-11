@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagina Vetrina con Navbar e Slider - Commentata</title>
+  <style>
+    /* ----------------------------
+       RESET BASE
+       Rimuove margini e padding predefiniti e imposta box-sizing per tutti gli elementi
+    ----------------------------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ----------------------------
+       BODY
+       Imposta lo sfondo con gradiente blu chiaro e il font generale della pagina
+    ----------------------------- */
+    body {
+      font-family: Arial, sans-serif; /* Font leggibile e standard */
+      background: linear-gradient(135deg, #cce5ff, #99ccff); /* Sfumatura azzurra */
+      color: #222; /* Colore del testo scuro per contrastare lo sfondo chiaro */
+    }
+
+    /* ----------------------------
+       CONTAINER PRINCIPALE
+       Mantiene la pagina centrata e limita la larghezza massima per grandi schermi
+    ----------------------------- */
+    .container {
+      width: 100%; /* Occupa tutta la larghezza disponibile */
+      max-width: 1200px; /* Larghezza massima */
+      margin: 0 auto; /* Centra il contenitore */
+      overflow: hidden; /* Nasconde eventuali elementi fuori dal container */
+      padding: 10px; /* Margine interno */
+    }
+
+    /* ----------------------------
+       NAVBAR
+       Barra di navigazione con elementi del menu e transizioni al passaggio del mouse
+    ----------------------------- */
+    nav {
+      display: flex; /* Disposizione orizzontale */
+      justify-content: space-between; /* Spazio tra logo e menu */
+      align-items: center; /* Allineamento verticale */
+      background-color: rgba(0, 0, 80, 0.8); /* Colore blu semi-trasparente */
+      padding: 15px 20px; /* Spaziatura interna */
+      border-radius: 8px; /* Angoli arrotondati */
+    }
+
+    /* Lista degli elementi di navigazione */
+    nav ul {
+      list-style: none; /* Rimuove i punti elenco */
+      display: flex; /* Disposizione orizzontale */
+      gap: 20px; /* Spazio tra gli elementi */
+    }
+
+    /* Stile dei link del menu */
+    nav ul li a {
+      color: white; /* Colore del testo */
+      text-decoration: none; /* Rimuove la sottolineatura */
+      font-weight: bold; /* Testo più spesso */
+      transition: color 1s ease; /* Transizione graduale del colore (1s) */
+    }
+
+    /* Effetto hover: il testo diventa color lime con transizione dolce */
+    nav ul li a:hover {
+      color: lime; /* Colore verde lime */
+    }
+
+    /* ----------------------------
+       SLIDER IMMAGINI
+       Contiene tre immagini che scorrono automaticamente con JavaScript
+    ----------------------------- */
+    .slider {
+      position: relative; /* Necessario per gestire il contenuto interno */
+      width: 100%; /* Larghezza piena */
+      height: 300px; /* Altezza fissa dello slider */
+      overflow: hidden; /* Nasconde le immagini che escono dal contenitore */
+      border-radius: 8px; /* Angoli arrotondati */
+      margin: 20px 0; /* Spazio sopra e sotto */
+    }
+
+    .slides {
+      display: flex; /* Le immagini sono affiancate */
+      width: 300%; /* 3 immagini = 300% */
+      height: 100%;
+      transition: transform 1s ease; /* Transizione fluida dello scorrimento */
+    }
+
+    .slides img {
+      width: 100%; /* Ogni immagine occupa 100% della larghezza del contenitore */
+      height: 100%; /* Occupa tutta l’altezza */
+      object-fit: cover; /* Adatta l’immagine senza deformarla */
+    }
+
+    /* ----------------------------
+       STRUTTURA DELLA PAGINA: RIGHE E COLONNE
+       Due blocchi con tre sezioni ciascuno (sinistra, centro, destra)
+    ----------------------------- */
+    .row {
+      display: flex; /* Disposizione in orizzontale */
+      gap: 15px; /* Spazio tra i div */
+      margin: 20px 0; /* Spazio sopra e sotto */
+    }
+
+    .col {
+      flex: 1; /* Ogni colonna occupa uno spazio uguale */
+      background: white; /* Sfondo bianco per contrasto */
+      border-radius: 8px; /* Angoli arrotondati */
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Leggera ombra */
+      padding: 20px; /* Spaziatura interna */
+      text-align: center; /* Testo centrato */
+      font-weight: bold; /* Testo in grassetto */
+    }
+
+    /* ----------------------------
+       FOOTER
+       Barra inferiore con testo centrato e colore blu
+    ----------------------------- */
+    footer {
+      background-color: rgba(0, 0, 80, 0.8); /* Colore blu scuro semi-trasparente */
+      color: white; /* Testo bianco */
+      text-align: center; /* Centrato */
+      padding: 15px; /* Spaziatura */
+      border-radius: 8px; /* Angoli arrotondati */
+      margin-top: 20px; /* Spazio sopra */
+    }
+
+    /* ----------------------------
+       MEDIA QUERY
+       Rende la pagina responsive su dispositivi mobili
+       Quando lo schermo è più piccolo di 768px, le colonne si impilano verticalmente
+    ----------------------------- */
+    @media (max-width: 768px) {
+      .row {
+        flex-direction: column; /* Impila le colonne verticalmente */
+      }
+
+      nav ul {
+        flex-direction: column; /* Impila anche i link del menu */
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- NAVBAR -->
+    <nav>
+      <h1>Logo</h1>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Servizi</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Contatti</a></li>
+      </ul>
+    </nav>
+
+    <!-- SLIDER AUTOMATICO -->
+    <div class="slider">
+      <div class="slides" id="slides">
+        <img src="https://picsum.photos/id/1015/1200/300" alt="Immagine 1">
+        <img src="https://picsum.photos/id/1016/1200/300" alt="Immagine 2">
+        <img src="https://picsum.photos/id/1018/1200/300" alt="Immagine 3">
+      </div>
+    </div>
+
+    <!-- PRIMA RIGA -->
+    <div class="row">
+      <div class="col">Sezione 1</div>
+      <div class="col">Sezione 2</div>
+      <div class="col">Sezione 3</div>
+    </div>
+
+    <!-- SECONDA RIGA -->
+    <div class="row">
+      <div class="col">Sezione 4</div>
+      <div class="col">Sezione 5</div>
+      <div class="col">Sezione 6</div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      &copy; 2025 - Tutti i diritti riservati
+    </footer>
+  </div>
+
+  <script>
+    /* --------------------------------------------------
+       JAVASCRIPT SLIDER AUTOMATICO
+       Questo script fa scorrere automaticamente le tre immagini dello slider.
+       Ogni 3 secondi, l’indice dell’immagine aumenta e la funzione sposta il gruppo di immagini a sinistra.
+       Quando arriva all’ultima immagine, torna alla prima (ciclo infinito).
+    -------------------------------------------------- */
+
+    let index = 0; // Indice dell'immagine corrente (parte da 0)
+    const slides = document.getElementById('slides'); // Riferimento al contenitore delle immagini
+
+    function nextSlide() {
+      index = (index + 1) % 3; // Incrementa l’indice e torna a 0 dopo la terza immagine
+      slides.style.transform = `translateX(-${index * 100}%)`; // Sposta il gruppo immagini a sinistra
+    }
+
+    // Esegue la funzione ogni 3 secondi per far scorrere le immagini automaticamente
+    setInterval(nextSlide, 3000);
+  </script>
+</body>
+</html>
