@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Progress Bar Circolare</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: sans-serif;
+    margin-top: 50px;
+  }
+  canvas {
+    background: #f0f0f0;
+    border-radius: 50%;
+  }
+  .slider-container {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="progress" width="200" height="200"></canvas>
+
+<div class="slider-container">
+  <input type="range" id="range" min="0" max="100" value="0">
+  <span id="value">0%</span>
+</div>
+
+<script>
+var canvas = document.getElementById('progress');
+var ctx = canvas.getContext('2d');
+var range = document.getElementById('range');
+var valueDisplay = document.getElementById('value');
+
+var cx = canvas.width / 2;
+var cy = canvas.height / 2;
+var r = 80; // raggio cerchio
+var lineWidth = 15;
+
+// funzione per disegnare la progress bar
+function drawProgress(p) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // cerchio di sfondo
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+  ctx.strokeStyle = '#ddd';
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+
+  // arco di progresso
+  var endAngle = 2 * Math.PI * (p / 100); // formula percentuale → angolo
+  ctx.beginPath();
+  ctx.arc(cx, cy, r, 0, endAngle);
+  ctx.strokeStyle = '#4caf50';
+  ctx.lineWidth = lineWidth;
+  ctx.stroke();
+
+  // testo percentuale
+  ctx.font = '24px sans-serif';
+  ctx.fillStyle = '#333';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(p.toFixed(0) + '%', cx, cy);
+}
+
+// aggiornamento slider
+range.oninput = function() {
+  var p = parseInt(this.value);
+  valueDisplay.textContent = p + '%';
+  drawProgress(p);
+}
+
+// disegna inizialmente 0%
+drawProgress(0);
+</script>
+
+</body>
+</html>
