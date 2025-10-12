@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Orologio Canvas</title>
+<style>
+  body { text-align: center; font-family: Arial; }
+  canvas { background: #FFFFFF; margin-top: 20px; }
+</style>
+</head>
+<body>
+
+<h2>Orologio Canvas</h2>
+<div id="cronometro">0:0:0:0</div>
+<canvas id="CR" width="400" height="400"></canvas>
+<br>
+<button onclick="stopCount()">Stop</button>
+<button onclick="deleteCount()">Reset</button>
+<button onclick="timedCount()">Start</button>
+
+<script>
+var t;
+var millisecondi = 0;
+var secondi = 0;
+var minuti = 0;
+var ora = 0;
+
+function timedCount() {
+    var canvas = document.getElementById("CR");
+    var ctx = canvas.getContext("2d");
+
+    // Aggiorna tempo
+    millisecondi++;
+    if (millisecondi == 100) { millisecondi = 0; secondi++; }
+    if (secondi == 60) { secondi = 0; minuti++; }
+    if (minuti == 60) { minuti = 0; ora++; }
+
+    document.getElementById("cronometro").innerHTML = ora + ":" + minuti + ":" + secondi + ":" + millisecondi;
+
+    // Cancella canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Sfondo cerchio
+    ctx.beginPath();
+    ctx.arc(200, 200, 150, 0, 2 * Math.PI);
+    ctx.fillStyle = "#EEEEFF";
+    ctx.fill();
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#000055";
+    ctx.stroke();
+
+    // Numeri ore
+    ctx.fillStyle = "#000000";
+    ctx.font = "16px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    for (var i = 1; i <= 12; i++) {
+        var ang = i * Math.PI / 6;
+        var x = 200 + 120 * Math.sin(ang);
+        var y = 200 - 120 * Math.cos(ang);
+        ctx.fillText(i, x, y);
+    }
+
+    // Tacchette minuti
+    for (var i = 0; i < 60; i++) {
+        var ang = i * Math.PI / 30;
+        var x1 = 200 + 135 * Math.sin(ang);
+        var y1 = 200 - 135 * Math.cos(ang);
+        var x2 = 200 + 145 * Math.sin(ang);
+        var y2 = 200 - 145 * Math.cos(ang);
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.strokeStyle = (i % 5 == 0) ? "#000000" : "#888888";
+        ctx.lineWidth = (i % 5 == 0) ? 2 : 1;
+        ctx.stroke();
+    }
+
+    // Lancetta millisecondi
+    var msAng = millisecondi * Math.PI / 30;
+    ctx.beginPath();
+    ctx.moveTo(200 + 140 * Math.sin(msAng), 200 - 140 * Math.cos(msAng));
+    ctx.lineTo(200, 200);
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Lancetta secondi
+    var sAng = secondi * Math.PI / 30;
+    ctx.beginPath();
+    ctx.moveTo(200 + 140 * Math.sin(sAng), 200 - 140 * Math.cos(sAng));
+    ctx.lineTo(200, 200);
+    ctx.strokeStyle = "#000000";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Lancetta minuti
+    var mAng = minuti * Math.PI / 30;
+    ctx.beginPath();
+    ctx.moveTo(200 + 120 * Math.sin(mAng), 200 - 120 * Math.cos(mAng));
+    ctx.lineTo(200, 200);
+    ctx.strokeStyle = "#FFD700";
+    ctx.lineWidth = 3;
+    ctx.stroke();
+
+    // Lancetta ore
+    var hAng = ora * Math.PI / 6;
+    ctx.beginPath();
+    ctx.moveTo(200 + 80 * Math.sin(hAng), 200 - 80 * Math.cos(hAng));
+    ctx.lineTo(200, 200);
+    ctx.strokeStyle = "#A52A2A";
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // Testo centrale
+    ctx.font = "20px Verdana";
+    ctx.strokeText(ora + ":" + minuti + ":" + secondi + ":" + millisecondi, 200, 200);
+
+    t = setTimeout(timedCount, 10);
+}
+
+function stopCount() { clearTimeout(t); }
+function deleteCount() { millisecondi = secondi = minuti = ora = 0; }
+</script>
+
+</body>
+</html>
