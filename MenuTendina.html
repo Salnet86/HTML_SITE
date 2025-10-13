@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Menù a Tendina</title>
+<style>
+/* Stile generale */
+body {
+  font-family: Arial, sans-serif;
+  margin: 50px;
+}
+
+/* Menù principale */
+.menu {
+  list-style: none;
+  display: flex;           /* orizzontale */
+  padding: 0;
+  margin: 0;
+  background-color: #3498db;
+}
+
+.menu > li {
+  position: relative;      /* per posizionare il sotto-menù */
+  padding: 15px 20px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.menu > li:hover {
+  background-color: #2980b9;
+}
+
+/* Sotto-menù nascosto di default */
+.submenu {
+  display: none;
+  position: absolute;      /* sopra gli altri elementi */
+  top: 100%;               /* subito sotto il genitore */
+  left: 0;
+  background-color: #ecf0f1;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  min-width: 150px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  z-index: 1000;
+}
+
+/* Mostra il sotto-menù al passaggio del mouse */
+.menu li:hover .submenu {
+  display: block;
+}
+
+/* Stile degli elementi del sotto-menù */
+.submenu li {
+  padding: 10px 15px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submenu li:hover {
+  background-color: #bdc3c7;
+}
+</style>
+</head>
+<body>
+
+<ul class="menu">
+  <li>Home</li>
+  <li>Servizi
+    <ul class="submenu">
+      <li>Web Design</li>
+      <li>SEO</li>
+      <li>Marketing</li>
+    </ul>
+  </li>
+  <li>Chi Siamo</li>
+  <li>Contatti</li>
+</ul>
+
+</body>
+</html>

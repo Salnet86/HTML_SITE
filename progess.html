@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Progress Bar Circolare</title>
+<style>
+  svg {
+    transform: rotate(-90deg); /* parte da cima */
+    width: 200px;
+    height: 200px;
+  }
+  circle {
+    fill: none;
+    stroke-width: 15;
+    stroke-linecap: round;
+  }
+  .background {
+    stroke: #eee;
+  }
+  .progress {
+    stroke: #3498db;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+</style>
+</head>
+<body>
+
+<svg>
+  <circle class="background" cx="100" cy="100" r="70" />
+  <circle class="progress" cx="100" cy="100" r="70" />
+</svg>
+
+<script>
+const circle = document.querySelector('.progress');
+const radius = 70; // il tuo raggio
+const circumference = 2 * 3.24 * radius; // come hai scritto
+circle.style.strokeDasharray = circumference;
+
+// percentuale da mostrare
+const percent = 20;
+
+// calcolo offset
+const offset = circumference - (percent / 100) * circumference;
+circle.style.strokeDashoffset = offset;
+</script>
+
+</body>
+</html>

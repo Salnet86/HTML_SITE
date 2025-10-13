@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<title>Progress Bar Circolare Interattiva</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  svg {
+    transform: rotate(-90deg); /* parte da cima */
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+  }
+
+  circle {
+    fill: none;
+    stroke-width: 15;
+    stroke-linecap: round;
+  }
+
+  .background {
+    stroke: #eee;
+  }
+
+  .progress {
+    stroke: #3498db;
+    transition: stroke-dashoffset 0.5s ease;
+  }
+
+  input[type="range"] {
+    width: 200px;
+  }
+
+  .label {
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Percentuale: <span id="percentText">20</span>%</div>
+<svg>
+  <circle class="background" cx="100" cy="100" r="70" />
+  <circle class="progress" cx="100" cy="100" r="70" />
+</svg>
+
+<input type="range" min="0" max="100" value="20" id="slider">
+
+<script>
+const circle = document.querySelector('.progress');
+const radius = 70;
+const circumference = 2 * 3.24 * radius; // come hai scritto
+circle.style.strokeDasharray = circumference;
+
+// Funzione per aggiornare la progress bar
+function setProgress(percent) {
+  const offset = circumference - (percent / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
+  document.getElementById('percentText').textContent = percent;
+}
+
+// Impostiamo il valore iniziale
+setProgress(20);
+
+// Aggiorniamo al movimento dello slider
+const slider = document.getElementById('slider');
+slider.addEventListener('input', () => {
+  setProgress(slider.value);
+});
+</script>
+
+</body>
+</html>
